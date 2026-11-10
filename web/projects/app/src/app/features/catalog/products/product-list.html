@@ -1,0 +1,107 @@
+<div class="feature-container">
+  <div class="feature-header">
+    <div>
+      <h2 class="feature-title">{{ i18n.t('catalog.title') }}</h2>
+      <p class="feature-subtitle">{{ i18n.t('catalog.subtitle') }}</p>
+    </div>
+    <button class="btn btn-primary" type="button" (click)="state.openCreate()">
+      <span class="icon">+</span> {{ i18n.t('catalog.addProduct') }}
+    </button>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">{{ i18n.t('catalog.statsTotal') }}</div>
+      <div class="stat-val">{{ state.products().length }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">{{ i18n.t('catalog.statsActive') }}</div>
+      <div class="stat-val text-success">{{ state.activeCount() }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">{{ i18n.t('catalog.statsStock') }}</div>
+      <div class="stat-val text-primary">{{ state.totalStock() }}</div>
+    </div>
+  </div>
+
+  <div class="filter-card">
+    <input
+      type="text"
+      class="form-control"
+      [placeholder]="i18n.t('catalog.search')"
+      [value]="state.searchQuery()"
+      (input)="onSearchInput($event)"
+    />
+  </div>
+
+  <div class="table-card">
+    @if (state.loading()) {
+      <div class="loading-state">جاري التحميل / Loading...</div>
+    } @else if (state.filteredProducts().length === 0) {
+      <div class="empty-state">لا توجد منتجات مسجلة لهذا المستأجر. / No products found for this tenant.</div>
+    } @else {
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>{{ i18n.t('catalog.colSku') }}</th>
+            <th>{{ i18n.t('catalog.colName') }}</th>
+            <th>{{ i18n.t('catalog.colPrice') }}</th>
+            <th>{{ i18n.t('catalog.colStock') }}</th>
+            <th>{{ i18n.t('catalog.colStatus') }}</th>
+            <th>{{ i18n.t('catalog.colActions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of state.filteredProducts(); track item.id) {
+            <tr>
+              <td><span class="badge-sku">{{ item.sku }}</span></td>
+              <td>
+                <div class="product-name">{{ item.name }}</div>
+              </td>
+              <td class="font-bold">\${{ item.unitPrice | number:'1.2-2' }}</td>
+              <td>
+                <span
+                  class="stock-badge"
+                  [class.in-stock]="item.stockQuantity > 5"
+                  [class.low-stock]="item.stockQuantity > 0 && item.stockQuantity <= 5"
+                  [class.out-of-stock]="item.stockQuantity === 0">
+                  {{ item.stockQuantity }} {{ item.stockQuantity > 0 ? i18n.t('catalog.inStock') : i18n.t('catalog.outOfStock') }}
+                </span>
+              </td>
+              <td>
+                <span class="status-pill" [class.active]="item.isActive" [class.inactive]="!item.isActive">
+                  {{ item.isActive ? i18n.t('catalog.active') : i18n.t('catalog.inactive') }}
+                </span>
+              </td>
+              <td>
+                <div class="actions-group">
+                  <button class="btn-action edit" type="button" (click)="state.openUpdate(item)" title="Edit">
+                    ✎
+                  </button>
+                  @if (item.isActive) {
+                    <button
+                      class="btn-action deactivate"
+                      type="button"
+                      (click)="deactivate(item.id)"
+                      [title]="i18n.t('catalog.deactivate')">
+                      ✕
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (state.createOpen()) {
+    <zad-product-create />
+  }
+
+  @if (state.editingProduct(); as editing) {
+    <zad-product-update [product]="editing" />
+  }
+</div>
+

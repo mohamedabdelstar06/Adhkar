@@ -1,0 +1,66 @@
+name: zad
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: zad-sqlserver
+    profiles: ["deps", "full"]
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-ZadPassword123!}"
+    ports:
+      - "127.0.0.1:1433:1433"
+    volumes:
+      - zad-sqlserver:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P \"$${MSSQL_SA_PASSWORD:-ZadPassword123!}\" -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  migrator:
+    build:
+      context: .
+      dockerfile: tools/Zad.MigrationRunner/Dockerfile
+    container_name: zad-migrator
+    profiles: ["full"]
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ZAD_MIGRATIONS_CATALOG_CONNECTION_STRING: "${ConnectionStrings__Catalog:-Server=sqlserver,1433;Database=ZadCatalog;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ZAD_MIGRATIONS_SHARED_CONNECTION_STRING: "${ConnectionStrings__Shared:-Server=sqlserver,1433;Database=ZadShared01;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ZAD_MIGRATIONS_JOBS_CONNECTION_STRING: "${ConnectionStrings__Jobs:-Server=sqlserver,1433;Database=ZadJobs;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ConnectionStrings__Catalog: "${ConnectionStrings__Catalog:-Server=sqlserver,1433;Database=ZadCatalog;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ConnectionStrings__Shared: "${ConnectionStrings__Shared:-Server=sqlserver,1433;Database=ZadShared01;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ConnectionStrings__Jobs: "${ConnectionStrings__Jobs:-Server=sqlserver,1433;Database=ZadJobs;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+    command: ["--target", "local", "--seed-dev"]
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: src/Zad.Host/Dockerfile
+    container_name: zad-api
+    profiles: ["full"]
+    depends_on:
+      migrator:
+        condition: service_completed_successfully
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Catalog: "${ConnectionStrings__Catalog:-Server=sqlserver,1433;Database=ZadCatalog;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ConnectionStrings__Shared: "${ConnectionStrings__Shared:-Server=sqlserver,1433;Database=ZadShared01;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      ConnectionStrings__Jobs: "${ConnectionStrings__Jobs:-Server=sqlserver,1433;Database=ZadJobs;User Id=sa;Password=${MSSQL_SA_PASSWORD:-ZadPassword123!};Encrypt=False;TrustServerCertificate=True}"
+      Jobs__ServerEnabled: "true"
+      Tenancy__RootDomain: "${ZAD_ROOT_DOMAIN:-localhost}"
+    ports:
+      - "80:8080"
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  zad-sqlserver:

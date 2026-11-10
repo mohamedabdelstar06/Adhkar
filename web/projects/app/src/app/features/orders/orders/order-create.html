@@ -1,0 +1,105 @@
+<div class="modal-backdrop" (click)="state.closeCreate()">
+  <form class="modal-dialog modal-lg" (click)="$event.stopPropagation()" (submit)="$event.preventDefault(); submit()">
+    <div class="modal-header">
+      <h3>{{ i18n.t('orders.createOrder') }}</h3>
+      <button class="btn-close" type="button" (click)="state.closeCreate()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label>{{ i18n.t('orders.customerEmail') }} *</label>
+        <input
+          type="email"
+          class="form-control"
+          [formField]="emailForm.customerEmail"
+          placeholder="customer@example.com"
+        />
+      </div>
+
+      <div class="items-builder-box">
+        <h4>{{ i18n.t('orders.addItem') }} (From Catalog)</h4>
+        <div class="item-builder-row">
+          <div class="col-grow">
+            <select class="form-control" [value]="selectedProductId()" (change)="onProductChange($event)">
+              <option value="">-- {{ i18n.t('orders.selectProduct') }} --</option>
+              @for (product of state.availableProducts(); track product.id) {
+                <option [value]="product.id">
+                  {{ product.name }} (SKU: {{ product.sku }}) — \${{ product.unitPrice }} [Stock: {{ product.stockQuantity }}]
+                </option>
+              }
+            </select>
+          </div>
+          <div class="col-sm">
+            <input
+              type="number"
+              min="1"
+              class="form-control"
+              [value]="itemQuantity()"
+              (input)="onQuantityChange($event)"
+              placeholder="Qty"
+            />
+          </div>
+          <button
+            class="btn btn-secondary"
+            type="button"
+            (click)="addLineItem()"
+            [disabled]="!selectedProductId() || itemQuantity() <= 0">
+            + أضف
+          </button>
+        </div>
+      </div>
+
+      <div class="cart-container">
+        @if (cartItems().length === 0) {
+          <p class="cart-empty-text">{{ i18n.t('orders.cartEmpty') }}</p>
+        } @else {
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>المنتج / Product</th>
+                <th>السعر / Price</th>
+                <th>الكمية / Qty</th>
+                <th>المجموع / Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (line of cartItems(); track line.product.id; let idx = $index) {
+                <tr>
+                  <td><strong>{{ line.product.name }}</strong> ({{ line.product.sku }})</td>
+                  <td>\${{ line.product.unitPrice | number:'1.2-2' }}</td>
+                  <td>{{ line.quantity }}</td>
+                  <td>\${{ line.product.unitPrice * line.quantity | number:'1.2-2' }}</td>
+                  <td>
+                    <button class="btn-remove" type="button" (click)="removeLineItem(idx)">✕</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-end font-bold">{{ i18n.t('orders.colTotal') }}:</td>
+                <td class="font-bold text-primary">\${{ cartTotal() | number:'1.2-2' }}</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        }
+      </div>
+
+      @if (state.errorMessage()) {
+        <div class="alert-error">{{ state.errorMessage() }}</div>
+      }
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" (click)="state.closeCreate()">
+        {{ i18n.t('catalog.cancel') }}
+      </button>
+      <button class="btn btn-primary" type="submit" [disabled]="cartItems().length === 0 || state.saving()">
+        {{ i18n.t('orders.placeOrder') }} (\${{ cartTotal() | number:'1.2-2' }})
+      </button>
+    </div>
+  </form>
+</div>
+

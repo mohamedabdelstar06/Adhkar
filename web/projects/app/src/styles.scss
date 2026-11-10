@@ -1,0 +1,73 @@
+@import 'primeicons/primeicons.css';
+
+:root {
+  --primary: var(--ds-color-primary);
+  --dark-primary: var(--ds-color-primary-strong);
+  --primary-light: var(--ds-color-primary-surface);
+  --secondary: var(--ds-color-accent);
+  --dark: var(--ds-color-on-surface);
+  --light: var(--ds-color-surface-muted);
+  --danger: var(--ds-color-danger);
+  --danger-light: var(--ds-color-danger-surface);
+  --success: var(--ds-color-success);
+  --success-light: var(--ds-color-success-surface);
+  --info: var(--ds-color-accent);
+  --border-color: var(--ds-color-border);
+  --card-bg: var(--ds-color-surface);
+  --text-primary: var(--ds-color-on-surface);
+  --text-muted: var(--ds-color-on-surface-muted);
+  --font-arabic: 'Cairo', 'Tajawal', var(--zad-font-sans);
+  --font-latin: 'Inter', var(--zad-font-sans);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-arabic);
+  background-color: var(--ds-color-surface-muted);
+  color: var(--ds-color-on-surface);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+[dir='ltr'] body {
+  font-family: var(--font-latin);
+}
+
+a {
+  color: var(--ds-color-primary);
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  inline-size: 6px;
+  block-size: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ds-color-surface-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ds-color-border);
+  border-radius: var(--zad-radius-sm);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ds-color-primary);
+}

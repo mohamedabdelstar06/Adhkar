@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zad.BuildingBlocks.Contracts\Zad.BuildingBlocks.Contracts.csproj" />
+  </ItemGroup>
+</Project>

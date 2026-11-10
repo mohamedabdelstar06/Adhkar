@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zad.Modules.Adhkar.Application\Zad.Modules.Adhkar.Application.csproj" />
+    <ProjectReference Include="..\Zad.Modules.Adhkar.Contracts\Zad.Modules.Adhkar.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Zad.BuildingBlocks.Web\Zad.BuildingBlocks.Web.csproj" />
+  </ItemGroup>
+</Project>

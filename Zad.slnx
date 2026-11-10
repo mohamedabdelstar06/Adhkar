@@ -1,0 +1,65 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="global.json" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path=".editorconfig" />
+    <File Path="BannedSymbols.txt" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Zad.Host/Zad.Host.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Contracts/Zad.BuildingBlocks.Contracts.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Domain/Zad.BuildingBlocks.Domain.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Application/Zad.BuildingBlocks.Application.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Persistence/Zad.BuildingBlocks.Persistence.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Messaging/Zad.BuildingBlocks.Messaging.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Jobs/Zad.BuildingBlocks.Jobs.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Web/Zad.BuildingBlocks.Web.csproj" />
+    <Project Path="src/BuildingBlocks/Zad.BuildingBlocks.Notifications/Zad.BuildingBlocks.Notifications.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Tenancy/">
+    <Project Path="src/Modules/Tenancy/Zad.Modules.Tenancy.Contracts/Zad.Modules.Tenancy.Contracts.csproj" />
+    <Project Path="src/Modules/Tenancy/Zad.Modules.Tenancy.Domain/Zad.Modules.Tenancy.Domain.csproj" />
+    <Project Path="src/Modules/Tenancy/Zad.Modules.Tenancy.Application/Zad.Modules.Tenancy.Application.csproj" />
+    <Project Path="src/Modules/Tenancy/Zad.Modules.Tenancy.Infrastructure/Zad.Modules.Tenancy.Infrastructure.csproj" />
+    <Project Path="src/Modules/Tenancy/Zad.Modules.Tenancy.Api/Zad.Modules.Tenancy.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Catalog/">
+    <Project Path="src/Modules/Catalog/Zad.Modules.Catalog.Contracts/Zad.Modules.Catalog.Contracts.csproj" />
+    <Project Path="src/Modules/Catalog/Zad.Modules.Catalog.Domain/Zad.Modules.Catalog.Domain.csproj" />
+    <Project Path="src/Modules/Catalog/Zad.Modules.Catalog.Application/Zad.Modules.Catalog.Application.csproj" />
+    <Project Path="src/Modules/Catalog/Zad.Modules.Catalog.Infrastructure/Zad.Modules.Catalog.Infrastructure.csproj" />
+    <Project Path="src/Modules/Catalog/Zad.Modules.Catalog.Api/Zad.Modules.Catalog.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Orders/">
+    <Project Path="src/Modules/Orders/Zad.Modules.Orders.Contracts/Zad.Modules.Orders.Contracts.csproj" />
+    <Project Path="src/Modules/Orders/Zad.Modules.Orders.Domain/Zad.Modules.Orders.Domain.csproj" />
+    <Project Path="src/Modules/Orders/Zad.Modules.Orders.Application/Zad.Modules.Orders.Application.csproj" />
+    <Project Path="src/Modules/Orders/Zad.Modules.Orders.Infrastructure/Zad.Modules.Orders.Infrastructure.csproj" />
+    <Project Path="src/Modules/Orders/Zad.Modules.Orders.Api/Zad.Modules.Orders.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Adhkar/">
+    <Project Path="src/Modules/Adhkar/Zad.Modules.Adhkar.Contracts/Zad.Modules.Adhkar.Contracts.csproj" />
+    <Project Path="src/Modules/Adhkar/Zad.Modules.Adhkar.Domain/Zad.Modules.Adhkar.Domain.csproj" />
+    <Project Path="src/Modules/Adhkar/Zad.Modules.Adhkar.Application/Zad.Modules.Adhkar.Application.csproj" />
+    <Project Path="src/Modules/Adhkar/Zad.Modules.Adhkar.Infrastructure/Zad.Modules.Adhkar.Infrastructure.csproj" />
+    <Project Path="src/Modules/Adhkar/Zad.Modules.Adhkar.Api/Zad.Modules.Adhkar.Api.csproj" />
+  </Folder>
+  <Folder Name="/tools/">
+    <Project Path="tools/Zad.MigrationRunner/Zad.MigrationRunner.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Zad.BuildingBlocks.UnitTests/Zad.BuildingBlocks.UnitTests.csproj" />
+    <Project Path="tests/Zad.Modules.Adhkar.IntegrationTests/Zad.Modules.Adhkar.IntegrationTests.csproj" />
+    <Project Path="tests/Zad.Modules.Adhkar.UnitTests/Zad.Modules.Adhkar.UnitTests.csproj" />
+    <Project Path="tests/Zad.Modules.Catalog.IntegrationTests/Zad.Modules.Catalog.IntegrationTests.csproj" />
+    <Project Path="tests/Zad.Modules.Catalog.UnitTests/Zad.Modules.Catalog.UnitTests.csproj" />
+    <Project Path="tests/Zad.Modules.Orders.IntegrationTests/Zad.Modules.Orders.IntegrationTests.csproj" />
+    <Project Path="tests/Zad.Modules.Orders.UnitTests/Zad.Modules.Orders.UnitTests.csproj" />
+    <Project Path="tests/Zad.Modules.Tenancy.IntegrationTests/Zad.Modules.Tenancy.IntegrationTests.csproj" />
+    <Project Path="tests/Zad.Modules.Tenancy.UnitTests/Zad.Modules.Tenancy.UnitTests.csproj" />
+    <Project Path="tests/Zad.TestSupport/Zad.TestSupport.csproj" />
+  </Folder>
+</Solution>

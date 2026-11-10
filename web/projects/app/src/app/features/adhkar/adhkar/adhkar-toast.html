@@ -1,0 +1,21 @@
+@if (visible() && current(); as dhikr) {
+  <aside class="adhkar-toast" role="status" aria-live="polite">
+    <div class="toast-head">
+      <span class="toast-label">{{ i18n.t('adhkar.tickerLabel') }}</span>
+      <button class="toast-close" type="button" (click)="dismiss()" [attr.aria-label]="i18n.t('adhkar.dismiss')">
+        ×
+      </button>
+    </div>
+
+    <p class="toast-text" dir="rtl" lang="ar">{{ dhikr.text }}</p>
+
+    @if (dhikr.translation) {
+      <p class="toast-translation" dir="ltr">{{ dhikr.translation }}</p>
+    }
+
+    @if (dhikr.reference) {
+      <span class="toast-reference" dir="rtl" lang="ar">{{ dhikr.reference }}</span>
+    }
+  </aside>
+}
+

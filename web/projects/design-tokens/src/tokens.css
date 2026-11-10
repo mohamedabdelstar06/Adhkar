@@ -1,0 +1,68 @@
+@layer zad-tokens {
+  :root {
+    color-scheme: light;
+
+    --zad-color-teal-500: #0f766e;
+    --zad-color-teal-600: #115e59;
+    --zad-color-teal-700: #134e4a;
+    --zad-color-neutral-0: #ffffff;
+    --zad-color-neutral-50: #f8fafc;
+    --zad-color-neutral-100: #f1f5f9;
+    --zad-color-neutral-200: #e2e8f0;
+    --zad-color-neutral-400: #94a3b8;
+    --zad-color-neutral-600: #475569;
+    --zad-color-neutral-700: #334155;
+    --zad-color-neutral-900: #0f172a;
+    --zad-color-red-100: #fee2e2;
+    --zad-color-red-600: #dc2626;
+    --zad-color-green-100: #dcfce7;
+    --zad-color-green-700: #15803d;
+
+    --zad-space-1: 0.25rem;
+    --zad-space-2: 0.5rem;
+    --zad-space-3: 0.75rem;
+    --zad-space-4: 1rem;
+    --zad-space-6: 1.5rem;
+    --zad-space-8: 2rem;
+
+    --zad-radius-sm: 8px;
+    --zad-radius-md: 12px;
+    --zad-radius-lg: 16px;
+    --zad-radius-pill: 999px;
+
+    --zad-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --zad-shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.12);
+    --zad-font-sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+    --ds-color-surface: var(--zad-color-neutral-0);
+    --ds-color-surface-muted: var(--zad-color-neutral-50);
+    --ds-color-on-surface: var(--zad-color-neutral-900);
+    --ds-color-on-surface-muted: var(--zad-color-neutral-600);
+    --ds-color-primary: var(--zad-color-teal-600);
+    --ds-color-primary-strong: var(--zad-color-teal-700);
+    --ds-color-primary-surface: rgba(25, 107, 105, 0.08);
+    --ds-color-on-primary: var(--zad-color-neutral-0);
+    --ds-color-danger: var(--zad-color-red-600);
+    --ds-color-danger-surface: var(--zad-color-red-100);
+    --ds-color-success: var(--zad-color-green-700);
+    --ds-color-success-surface: var(--zad-color-green-100);
+    --ds-color-accent: #fa9843;
+    --ds-color-accent-surface: rgba(250, 152, 67, 0.12);
+    --ds-color-border: var(--zad-color-neutral-200);
+    --ds-space-inline: var(--zad-space-4);
+    --ds-radius-card: var(--zad-radius-lg);
+    --ds-shadow-card: var(--zad-shadow-md);
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark;
+
+    --ds-color-surface: #0b1220;
+    --ds-color-surface-muted: #111827;
+    --ds-color-on-surface: #e5e7eb;
+    --ds-color-on-surface-muted: #9ca3af;
+    --ds-color-primary: var(--zad-color-teal-500);
+    --ds-color-on-primary: #04211f;
+    --ds-color-border: #1f2937;
+  }
+}

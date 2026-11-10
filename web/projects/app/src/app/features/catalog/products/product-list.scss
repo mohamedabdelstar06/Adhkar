@@ -1,0 +1,229 @@
+.feature-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.feature-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.feature-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ds-color-primary);
+}
+
+.feature-subtitle {
+  font-size: 0.875rem;
+  color: var(--ds-color-on-surface-muted);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  background: var(--ds-color-surface);
+  padding: 1.25rem;
+  border-radius: var(--zad-radius-sm);
+  border: 1px solid var(--ds-color-border);
+  box-shadow: var(--zad-shadow-sm);
+}
+
+.stat-label {
+  font-size: 0.8125rem;
+  color: var(--ds-color-on-surface-muted);
+  font-weight: 500;
+}
+
+.stat-val {
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-block-start: 0.25rem;
+}
+
+.text-success {
+  color: var(--ds-color-success);
+}
+
+.text-primary {
+  color: var(--ds-color-primary);
+}
+
+.filter-card {
+  background: var(--ds-color-surface);
+  padding: 0.75rem;
+  border-radius: var(--zad-radius-sm);
+  border: 1px solid var(--ds-color-border);
+}
+
+.form-control {
+  inline-size: 100%;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--ds-color-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  outline: none;
+
+  &:focus {
+    border-color: var(--ds-color-primary);
+    box-shadow: 0 0 0 3px var(--ds-color-primary-surface);
+  }
+}
+
+.table-card {
+  background: var(--ds-color-surface);
+  border-radius: var(--zad-radius-sm);
+  border: 1px solid var(--ds-color-border);
+  overflow: hidden;
+  box-shadow: var(--zad-shadow-sm);
+}
+
+.data-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  text-align: start;
+
+  th {
+    background: var(--ds-color-surface-muted);
+    padding: 0.875rem 1rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ds-color-on-surface-muted);
+    border-block-end: 1px solid var(--ds-color-border);
+  }
+
+  td {
+    padding: 0.875rem 1rem;
+    border-block-end: 1px solid var(--zad-color-neutral-100);
+    font-size: 0.875rem;
+    vertical-align: middle;
+  }
+
+  tr:hover {
+    background-color: var(--ds-color-surface-muted);
+  }
+}
+
+.badge-sku {
+  background: var(--zad-color-neutral-100);
+  color: var(--zad-color-neutral-700);
+  font-family: monospace;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.product-name {
+  font-weight: 600;
+  color: var(--ds-color-on-surface);
+}
+
+.font-bold {
+  font-weight: 700;
+  color: var(--ds-color-primary);
+}
+
+.stock-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+
+  &.in-stock {
+    background: var(--ds-color-success-surface);
+    color: var(--ds-color-success);
+  }
+
+  &.low-stock {
+    background: var(--ds-color-accent-surface);
+    color: var(--ds-color-accent);
+  }
+
+  &.out-of-stock {
+    background: var(--ds-color-danger-surface);
+    color: var(--ds-color-danger);
+  }
+}
+
+.status-pill {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--zad-radius-pill);
+  font-weight: 600;
+
+  &.active {
+    background: var(--ds-color-success-surface);
+    color: var(--ds-color-success);
+  }
+
+  &.inactive {
+    background: var(--ds-color-danger-surface);
+    color: var(--ds-color-danger);
+  }
+}
+
+.actions-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-action {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 6px;
+  border: 1px solid var(--ds-color-border);
+  background: var(--ds-color-surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+
+  &.edit:hover {
+    background: var(--ds-color-primary-surface);
+    color: var(--ds-color-primary);
+    border-color: var(--ds-color-primary);
+  }
+
+  &.deactivate:hover {
+    background: var(--ds-color-danger-surface);
+    color: var(--ds-color-danger);
+    border-color: var(--ds-color-danger);
+  }
+}
+
+.btn {
+  padding: 0.625rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: var(--ds-color-primary);
+  color: var(--ds-color-on-primary);
+
+  &:hover {
+    background: var(--ds-color-primary-strong);
+  }
+}
+
+.loading-state,
+.empty-state {
+  padding: 3rem;
+  text-align: center;
+  color: var(--ds-color-on-surface-muted);
+}
+

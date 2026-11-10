@@ -1,0 +1,47 @@
+# Build and output artifacts
+bin/
+obj/
+publish/
+dist/
+.angular/
+src/Zad.Host/wwwroot/
+TestResults/
+
+# Dependencies
+node_modules/
+
+# IDE and Editor files
+.vs/
+.idea/
+.vscode/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# Configuration and Environment Secrets
+appsettings.Local.json
+appsettings.*.Local.json
+*.local.json
+.env
+.env.*
+*.env
+*.env.*
+!.env.example
+
+# Logs and Caches
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.workbuddy-ai/
+zad.tar.gz
+
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# Deployment infrastructure and README files (excluded from public repo)
+deploy/
+README.md
+**/README.md

@@ -1,0 +1,48 @@
+<div class="modal-backdrop" (click)="state.closeDetails()">
+  <div class="modal-dialog" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ i18n.t('orders.detailsTitle') }} — {{ order().orderNumber }}</h3>
+      <button class="btn-close" type="button" (click)="state.closeDetails()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="details-meta">
+        <div><strong>{{ i18n.t('orders.colCustomer') }}:</strong> {{ order().customerEmail }}</div>
+        <div><strong>{{ i18n.t('orders.colStatus') }}:</strong> {{ order().status }}</div>
+        <div><strong>{{ i18n.t('orders.colDate') }}:</strong> {{ order().createdAtUtc | date:'medium' }}</div>
+      </div>
+
+      <table class="cart-table details-table">
+        <thead>
+          <tr>
+            <th>المنتج</th>
+            <th>السعر</th>
+            <th>الكمية</th>
+            <th>المجموع</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of order().items; track item.id) {
+            <tr>
+              <td>{{ item.productName }}</td>
+              <td>\${{ item.unitPrice | number:'1.2-2' }}</td>
+              <td>{{ item.quantity }}</td>
+              <td class="font-bold">\${{ item.lineTotal | number:'1.2-2' }}</td>
+            </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end font-bold">{{ i18n.t('orders.colTotal') }}:</td>
+            <td class="font-bold text-primary">\${{ order().totalAmount | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" type="button" (click)="state.closeDetails()">إغلاق / Close</button>
+    </div>
+  </div>
+</div>
+

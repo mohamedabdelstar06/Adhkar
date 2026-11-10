@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <UserSecretsId>zad-migration-runner</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BuildingBlocks\Zad.BuildingBlocks.Persistence\Zad.BuildingBlocks.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Tenancy\Zad.Modules.Tenancy.Infrastructure\Zad.Modules.Tenancy.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Catalog\Zad.Modules.Catalog.Infrastructure\Zad.Modules.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\Zad.Modules.Orders.Infrastructure\Zad.Modules.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Adhkar\Zad.Modules.Adhkar.Infrastructure\Zad.Modules.Adhkar.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
+    <PackageReference Include="Hangfire.SqlServer" />
+    <PackageReference Include="Microsoft.Data.SqlClient" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\src\Zad.Host\appsettings.Local.json"
+          Link="appsettings.Local.json"
+          CopyToOutputDirectory="PreserveNewest"
+          Condition="Exists('..\..\src\Zad.Host\appsettings.Local.json')" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zad.Modules.Adhkar.Domain\Zad.Modules.Adhkar.Domain.csproj" />
+    <ProjectReference Include="..\Zad.Modules.Adhkar.Contracts\Zad.Modules.Adhkar.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Zad.BuildingBlocks.Application\Zad.BuildingBlocks.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+  </ItemGroup>
+</Project>

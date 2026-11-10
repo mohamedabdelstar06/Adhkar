@@ -1,0 +1,53 @@
+<div class="modal-backdrop" (click)="state.closeUpdate()">
+  <form class="edit-dialog" (click)="$event.stopPropagation()" (submit)="$event.preventDefault(); submit()">
+    <div class="view-dialog-header">
+      <h2 class="view-dialog-title">
+        {{ i18n.t('platform.editTitle') }}: <span class="mono">{{ tenant().slug }}</span>
+      </h2>
+      <button class="close-x-btn" type="button" (click)="state.closeUpdate()">✕</button>
+    </div>
+
+    <div class="modal-form">
+      <div class="form-grid">
+        <label class="field">
+          <span>{{ i18n.t('platform.fieldSlug') }}</span>
+          <input type="text" [value]="tenant().slug" disabled class="disabled-input" />
+        </label>
+
+        <label class="field">
+          <span>{{ i18n.t('platform.fieldHost') }}</span>
+          <input type="text" autocomplete="off" [formField]="tenantForm.host" />
+          <small>{{ i18n.t('platform.hostHint') }}</small>
+        </label>
+
+        <label class="field">
+          <span>{{ i18n.t('platform.fieldLanguage') }}</span>
+          <select [formField]="tenantForm.defaultLanguage">
+            @for (lang of languages; track lang.value) {
+              <option [value]="lang.value">{{ lang.label }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field">
+          <span>{{ i18n.t('platform.fieldTimeZone') }}</span>
+          <select [formField]="tenantForm.timeZone">
+            @for (tz of timeZones; track tz.value) {
+              <option [value]="tz.value">{{ tz.label }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <div class="form-actions modal-actions">
+        <button class="btn-primary" type="submit" [disabled]="tenantForm().invalid() || state.updating()">
+          {{ state.updating() ? '...' : i18n.t('platform.save') }}
+        </button>
+        <button class="btn-ghost" type="button" (click)="state.closeUpdate()">
+          {{ i18n.t('platform.cancel') }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

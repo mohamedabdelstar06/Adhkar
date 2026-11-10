@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <UserSecretsId>zad-host</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BuildingBlocks\Zad.BuildingBlocks.Web\Zad.BuildingBlocks.Web.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\Zad.BuildingBlocks.Persistence\Zad.BuildingBlocks.Persistence.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\Zad.BuildingBlocks.Messaging\Zad.BuildingBlocks.Messaging.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\Zad.BuildingBlocks.Jobs\Zad.BuildingBlocks.Jobs.csproj" />
+    <ProjectReference Include="..\BuildingBlocks\Zad.BuildingBlocks.Notifications\Zad.BuildingBlocks.Notifications.csproj" />
+    <ProjectReference Include="..\Modules\Tenancy\Zad.Modules.Tenancy.Infrastructure\Zad.Modules.Tenancy.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Tenancy\Zad.Modules.Tenancy.Api\Zad.Modules.Tenancy.Api.csproj" />
+    <ProjectReference Include="..\Modules\Catalog\Zad.Modules.Catalog.Infrastructure\Zad.Modules.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Catalog\Zad.Modules.Catalog.Api\Zad.Modules.Catalog.Api.csproj" />
+    <ProjectReference Include="..\Modules\Orders\Zad.Modules.Orders.Infrastructure\Zad.Modules.Orders.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Orders\Zad.Modules.Orders.Api\Zad.Modules.Orders.Api.csproj" />
+    <ProjectReference Include="..\Modules\Adhkar\Zad.Modules.Adhkar.Infrastructure\Zad.Modules.Adhkar.Infrastructure.csproj" />
+    <ProjectReference Include="..\Modules\Adhkar\Zad.Modules.Adhkar.Api\Zad.Modules.Adhkar.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+  </ItemGroup>
+</Project>

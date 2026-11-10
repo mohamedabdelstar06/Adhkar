@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BuildingBlocks\Zad.BuildingBlocks.Application\Zad.BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\..\src\BuildingBlocks\Zad.BuildingBlocks.Contracts\Zad.BuildingBlocks.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\BuildingBlocks\Zad.BuildingBlocks.Domain\Zad.BuildingBlocks.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Catalog\Zad.Modules.Catalog.Contracts\Zad.Modules.Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\Zad.Modules.Orders.Application\Zad.Modules.Orders.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\Zad.Modules.Orders.Contracts\Zad.Modules.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Orders\Zad.Modules.Orders.Domain\Zad.Modules.Orders.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+</Project>
+

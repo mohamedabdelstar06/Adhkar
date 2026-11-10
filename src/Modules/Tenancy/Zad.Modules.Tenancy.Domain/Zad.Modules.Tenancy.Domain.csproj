@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Zad.BuildingBlocks.Domain\Zad.BuildingBlocks.Domain.csproj" />
+    <ProjectReference Include="..\Zad.Modules.Tenancy.Contracts\Zad.Modules.Tenancy.Contracts.csproj" />
+  </ItemGroup>
+</Project>

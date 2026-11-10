@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zad.Modules.Orders.Application\Zad.Modules.Orders.Application.csproj" />
+    <ProjectReference Include="..\Zad.Modules.Orders.Contracts\Zad.Modules.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Zad.BuildingBlocks.Web\Zad.BuildingBlocks.Web.csproj" />
+  </ItemGroup>
+</Project>

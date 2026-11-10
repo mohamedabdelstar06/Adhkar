@@ -1,0 +1,10 @@
+M:System.Guid.NewGuid;Use GuidV7.New() (R26, R27).
+P:System.DateTime.Now;Inject TimeProvider and call GetUtcNow() (R27).
+P:System.DateTime.UtcNow;Inject TimeProvider and call GetUtcNow() (R27).
+P:System.DateTimeOffset.Now;Inject TimeProvider and call GetUtcNow(); never local time (R27).
+P:System.DateTimeOffset.UtcNow;Inject TimeProvider and call GetUtcNow() (R27).
+P:System.Globalization.CultureInfo.CurrentCulture;Use ICultureContext (R41).
+P:System.Globalization.CultureInfo.CurrentUICulture;Use ICultureContext (R41).
+P:System.Globalization.CultureInfo.DefaultThreadCurrentCulture;Use ICultureContext (R41).
+P:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture;Use ICultureContext (R41).
+

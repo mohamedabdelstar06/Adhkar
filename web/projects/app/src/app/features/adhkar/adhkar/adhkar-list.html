@@ -1,0 +1,56 @@
+<section class="page">
+  <zad-page-header [title]="i18n.t('adhkar.title')" [subtitle]="i18n.t('adhkar.subtitle')">
+    <zad-button [label]="'+ ' + i18n.t('adhkar.add')" (pressed)="state.openCreate()" />
+  </zad-page-header>
+
+  @if (state.error(); as message) {
+    <div class="alert">{{ message }}</div>
+  }
+
+  <div class="table-card">
+    <table>
+      <thead>
+        <tr>
+          <th>{{ i18n.t('adhkar.colText') }}</th>
+          <th>{{ i18n.t('adhkar.colTranslation') }}</th>
+          <th>{{ i18n.t('adhkar.colReference') }}</th>
+          <th>{{ i18n.t('adhkar.colCategory') }}</th>
+          <th>{{ i18n.t('adhkar.colOrder') }}</th>
+          <th>{{ i18n.t('adhkar.colActive') }}</th>
+          <th>{{ i18n.t('adhkar.colActions') }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (dhikr of state.items(); track dhikr.id) {
+          <tr>
+            <td class="dhikr-text" dir="rtl">{{ dhikr.text }}</td>
+            <td class="dhikr-translation" dir="ltr">{{ dhikr.translation }}</td>
+            <td>{{ dhikr.reference }}</td>
+            <td><span class="chip">{{ dhikr.category }}</span></td>
+            <td>{{ dhikr.displayOrder }}</td>
+            <td>
+              <span class="state" [class.state-on]="dhikr.isActive">{{ dhikr.isActive ? '●' : '○' }}</span>
+            </td>
+            <td class="actions">
+              <button class="btn-ghost" type="button" (click)="state.openUpdate(dhikr)">✎</button>
+              <button class="btn-danger" type="button" (click)="remove(dhikr)">{{ i18n.t('adhkar.delete') }}</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty">{{ i18n.t('adhkar.empty') }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (state.createOpen()) {
+    <zad-adhkar-create />
+  }
+
+  @if (state.editingDhikr(); as editing) {
+    <zad-adhkar-update [dhikr]="editing" />
+  }
+</section>
+

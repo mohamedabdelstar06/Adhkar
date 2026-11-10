@@ -1,0 +1,54 @@
+<div class="modal-backdrop" (click)="state.closeDetails()">
+  <div class="view-dialog" (click)="$event.stopPropagation()">
+    <div class="view-dialog-header">
+      <h2 class="view-dialog-title">{{ i18n.t('platform.viewTitle') }}</h2>
+      <button class="close-x-btn" type="button" (click)="state.closeDetails()">✕</button>
+    </div>
+
+    <div class="view-details-grid">
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colSlug') }}:</span>
+        <span class="detail-value mono font-bold">{{ tenant().slug }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colHost') }}:</span>
+        <span class="detail-value mono">{{ tenant().host }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colStatus') }}:</span>
+        <span class="detail-value">
+          <span class="badge" [class.badge-active]="state.isTenantActive(tenant())">
+            {{ tenant().status }}
+          </span>
+        </span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colLanguage') }}:</span>
+        <span class="detail-value">{{ tenant().defaultLanguage }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colTimeZone') }}:</span>
+        <span class="detail-value">{{ tenant().timeZone }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="detail-label">{{ i18n.t('platform.colWebsite') }}:</span>
+        <span class="detail-value">
+          @if (state.isTenantActive(tenant())) {
+            <a [href]="state.buildTenantUrl(tenant().host)" target="_blank" class="website-link">
+              {{ state.buildTenantUrl(tenant().host) }} ↗
+            </a>
+          } @else {
+            <span class="text-muted">{{ i18n.t('platform.suspendedBadge') }}</span>
+          }
+        </span>
+      </div>
+    </div>
+
+    <div class="view-dialog-footer">
+      <button class="btn-dialog-cancel" type="button" (click)="state.closeDetails()">
+        {{ i18n.t('platform.close') }}
+      </button>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Zad.Modules.Catalog.Domain\Zad.Modules.Catalog.Domain.csproj" />
+    <ProjectReference Include="..\Zad.Modules.Catalog.Contracts\Zad.Modules.Catalog.Contracts.csproj" />
+    <ProjectReference Include="..\..\Orders\Zad.Modules.Orders.Contracts\Zad.Modules.Orders.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Zad.BuildingBlocks.Application\Zad.BuildingBlocks.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,189 @@
+<div class="platform-page">
+  <zad-page-header [title]="i18n.t('platform.title')" [subtitle]="i18n.t('platform.subtitle')">
+    <zad-button [label]="i18n.t('platform.add')" (pressed)="state.openCreate()" />
+  </zad-page-header>
+
+  @if (state.error()) {
+    <div class="alert alert-error">{{ state.error() }}</div>
+  }
+
+  @if (state.notice()) {
+    <div class="alert alert-success">{{ state.notice() }}</div>
+  }
+
+  @if (state.togglingTenant(); as toggleTarget) {
+    <div class="modal-backdrop" (click)="state.cancelToggle()">
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-icon dialog-icon-warning">
+          <span>?</span>
+        </div>
+        <h2 class="dialog-title">{{ i18n.t('platform.confirmTitle') }}</h2>
+        <p class="dialog-message">
+          @if (!toggleTarget.targetActive) {
+            {{ i18n.t('platform.deactivateConfirmText') }}
+          } @else {
+            {{ i18n.t('platform.activateConfirmText') }}
+          }
+        </p>
+        <div class="dialog-actions">
+          <button
+            class="btn-dialog-confirm-amber"
+            type="button"
+            [disabled]="state.toggling()"
+            (click)="state.submitToggle()">
+            {{ state.toggling() ? '...' : i18n.t('platform.confirm') }}
+          </button>
+          <button class="btn-dialog-cancel" type="button" (click)="state.cancelToggle()">
+            {{ i18n.t('platform.cancel') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (state.deletingTenant()) {
+    <div class="modal-backdrop" (click)="state.cancelDelete()">
+      <div class="confirm-dialog" (click)="$event.stopPropagation()">
+        <div class="dialog-icon dialog-icon-danger">
+          <span>?</span>
+        </div>
+        <h2 class="dialog-title">{{ i18n.t('platform.deleteConfirmTitle') }}</h2>
+        <p class="dialog-message">{{ i18n.t('platform.deleteConfirmText') }}</p>
+        <div class="dialog-actions">
+          <button
+            class="btn-dialog-confirm-red"
+            type="button"
+            [disabled]="state.deleting()"
+            (click)="state.submitDelete()">
+            {{ state.deleting() ? '...' : i18n.t('platform.delete') }}
+          </button>
+          <button class="btn-dialog-cancel" type="button" (click)="state.cancelDelete()">
+            {{ i18n.t('platform.cancel') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="platform-card">
+    @if (state.loading()) {
+      <p class="empty">{{ i18n.t('platform.loading') }}</p>
+    } @else if (state.tenants().length === 0) {
+      <p class="empty">{{ i18n.t('platform.empty') }}</p>
+    } @else {
+      <table class="platform-table">
+        <thead>
+          <tr>
+            <th>{{ i18n.t('platform.colSlug') }}</th>
+            <th>{{ i18n.t('platform.colWebsite') }}</th>
+            <th>{{ i18n.t('platform.colLanguage') }}</th>
+            <th>{{ i18n.t('platform.colTimeZone') }}</th>
+            <th class="center-col">{{ i18n.t('platform.colActive') }}</th>
+            <th class="actions-header">{{ i18n.t('platform.colActions') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tenant of state.tenants(); track tenant.tenantId) {
+            <tr>
+              <td class="mono font-semibold">{{ tenant.slug }}</td>
+
+              <td>
+                @if (state.isTenantActive(tenant)) {
+                  <a
+                    [href]="state.buildTenantUrl(tenant.host)"
+                    target="_blank"
+                    class="website-link"
+                    [title]="state.buildTenantUrl(tenant.host)">
+                    <span>{{ i18n.t('platform.openWebsite') }}</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
+                } @else {
+                  <span class="website-disabled" [title]="i18n.t('platform.suspendedBadge')">
+                    <span>{{ i18n.t('platform.openWebsite') }}</span>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </span>
+                }
+              </td>
+
+              <td>{{ tenant.defaultLanguage }}</td>
+
+              <td>{{ tenant.timeZone }}</td>
+
+              <td class="center-col">
+                <button
+                  type="button"
+                  class="switch-toggle"
+                  [class.switch-on]="state.isTenantActive(tenant)"
+                  (click)="state.promptToggle(tenant)"
+                  role="switch"
+                  [attr.aria-checked]="state.isTenantActive(tenant)"
+                  [title]="state.isTenantActive(tenant) ? i18n.t('platform.colActive') : i18n.t('platform.suspendedBadge')">
+                  <span class="switch-handle"></span>
+                </button>
+              </td>
+
+              <td class="actions-cell">
+                <button
+                  class="icon-action-btn btn-trash"
+                  type="button"
+                  (click)="state.promptDelete(tenant)"
+                  [title]="i18n.t('platform.delete')">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 6h18"></path>
+                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                  </svg>
+                </button>
+
+                <button
+                  class="icon-action-btn btn-pencil"
+                  type="button"
+                  (click)="state.openUpdate(tenant)"
+                  [title]="i18n.t('platform.edit')">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </button>
+
+                <button
+                  class="icon-action-btn btn-eye"
+                  type="button"
+                  (click)="state.openDetails(tenant)"
+                  [title]="i18n.t('platform.view')">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+
+  @if (state.createOpen()) {
+    <zad-tenant-create />
+  }
+
+  @if (state.editingTenant(); as editing) {
+    <zad-tenant-update [tenant]="editing" />
+  }
+
+  @if (state.viewingTenant(); as viewing) {
+    <zad-tenant-details [tenant]="viewing" />
+  }
+</div>
+

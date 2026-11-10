@@ -1,0 +1,36 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+
+[*.{json,yml,yaml,csproj,props,slnx}]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
+csharp_prefer_braces = true:error
+dotnet_style_require_accessibility_modifiers = always:error
+dotnet_diagnostic.IDE0005.severity = error        # unused usings
+dotnet_diagnostic.CA1304.severity = error         # ToLower/ToUpper without culture
+dotnet_diagnostic.CA1305.severity = error         # IFormatProvider on format/parse
+dotnet_diagnostic.CA1307.severity = error         # StringComparison on string APIs
+dotnet_diagnostic.CA1310.severity = error         # ordinal comparison
+dotnet_diagnostic.VSTHRD002.severity = error      # no .Result / .Wait()
+dotnet_diagnostic.CA2007.severity = none          # ConfigureAwait not needed in ASP.NET Core
+dotnet_diagnostic.CA1062.severity = none          # nullable reference types cover this
+dotnet_diagnostic.CA1716.severity = none          # C#-only; `Error` is a VB keyword
+dotnet_diagnostic.CA1711.severity = none          # Allow EventHandler suffix
+dotnet_diagnostic.CA1848.severity = none          # Allow direct logger calls
+dotnet_diagnostic.CA1873.severity = none          # Allow logging arguments
+dotnet_diagnostic.CA1000.severity = none          # static factories on Result<T> by design
+dotnet_diagnostic.CA1822.severity = none          # members kept on instances for DI readability
+
+[tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none          # Method_scenario_expected test names
+
+[**/Migrations/*.cs]
+dotnet_diagnostic.IDE0005.severity = none         # EF-generated, must stay regenerable
+dotnet_diagnostic.CA1861.severity = none

@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals"
+    ]
+  },
+  "include": [
+    "projects/**/*.d.ts",
+    "projects/**/*.spec.ts"
+  ]
+}
