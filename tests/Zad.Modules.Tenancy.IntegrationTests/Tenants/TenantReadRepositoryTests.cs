@@ -43,22 +43,71 @@ public sealed class TenantReadRepositoryTests(SqlServerFixture sqlServer) : Inte
         all.Should().HaveCount(2);
     }
 
-    [Fact]
+    [Theory]
+    [InlineData("unknown.localhost")]
+    [InlineData("www.localhost")]
+    [InlineData("localhost")]
+    [InlineData("a.b.localhost")]
     [Trait("Category", TestCategories.TenantIsolation)]
-    public async Task Middleware_Returns_404_For_Unknown_Host_And_403_For_Suspended_Tenant()
+    public async Task Unknown_Reserved_Bare_And_Nested_Hosts_Return_404_For_Both_Page_And_Api(string invalidHost)
     {
         var ct = TestContext.Current.CancellationToken;
-        using var unknownClient = Factory.CreateClient();
-        unknownClient.DefaultRequestHeaders.Host = "unknown.localhost";
+        using var client = Factory.CreateClient();
+        client.DefaultRequestHeaders.Host = invalidHost;
 
-        var unknownResponse = await unknownClient.GetAsync("/api/catalog/products", ct);
-        unknownResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var pageResponse = await client.GetAsync("/", ct);
+        pageResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        pageResponse.Content.Headers.ContentType?.MediaType.Should().Be("text/html");
+        var pageBody = await pageResponse.Content.ReadAsStringAsync(ct);
+        pageBody.Should().Contain("المستأجر غير موجود");
+        pageBody.Should().NotContain("<app-root>");
+
+        var apiResponse = await client.GetAsync("/api/catalog/products", ct);
+        apiResponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var apiBody = await apiResponse.Content.ReadAsStringAsync(ct);
+        apiBody.Should().Contain(TenancyErrorCodes.TenantNotFound);
+
+        var platformApiOnInvalidHost = await client.GetAsync("/api/platform/tenants", ct);
+        platformApiOnInvalidHost.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    [Trait("Category", TestCategories.TenantIsolation)]
+    public async Task Platform_Api_Is_Blocked_On_Tenant_Hosts_With_404()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        using var tenantClient = Factory.CreateClientForTenant(Tenants.A);
+        var response = await tenantClient.GetAsync("/api/platform/tenants", ct);
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        var body = await response.Content.ReadAsStringAsync(ct);
+        body.Should().Contain("platform.not-available");
+    }
+
+    [Fact]
+    [Trait("Category", TestCategories.TenantIsolation)]
+    public async Task Middleware_Blocks_Suspended_Tenant_Pages_With_403_And_Allows_Platform_Host()
+    {
+        var ct = TestContext.Current.CancellationToken;
+
+        using var adminClient = Factory.CreateClient();
+        adminClient.DefaultRequestHeaders.Host = "admin.localhost";
+        var adminPage = await adminClient.GetAsync("/", ct);
+        var adminBody = await adminPage.Content.ReadAsStringAsync(ct);
+        adminBody.Should().NotContain("المستأجر غير موجود");
 
         using var platformClient = Factory.CreatePlatformClient();
         var suspendResponse = await platformClient.PostAsync($"/api/platform/tenants/{Tenants.B.Id}/suspend", null, ct);
         suspendResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
         using var bravoClient = Factory.CreateClientForTenant(Tenants.B);
+        var suspendedPage = await bravoClient.GetAsync("/", ct);
+        suspendedPage.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+        suspendedPage.Content.Headers.ContentType?.MediaType.Should().Be("text/html");
+        var suspendedHtml = await suspendedPage.Content.ReadAsStringAsync(ct);
+        suspendedHtml.Should().Contain("تم إيقاف الخدمة");
+
         var suspendedGet = await bravoClient.GetAsync("/api/catalog/products", ct);
         suspendedGet.StatusCode.Should().Be(HttpStatusCode.Forbidden);
 

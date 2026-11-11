@@ -1,6 +1,6 @@
+using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Zad.BuildingBlocks.Application.Migrations;
 using Zad.BuildingBlocks.Application.Observability;
@@ -18,7 +18,6 @@ public sealed class TenantResolutionMiddleware(RequestDelegate next)
         ITenantContextSetter setter,
         ITenantDatabaseReadiness readiness,
         IConfiguration configuration,
-        IHostEnvironment environment,
         ILogger<TenantResolutionMiddleware> logger)
     {
         if (TenantRouteConvention.IsTenantless(context.Request.Path))
@@ -29,16 +28,30 @@ public sealed class TenantResolutionMiddleware(RequestDelegate next)
 
         var host = HostNormalization.Normalize(context.Request.Host.Host);
         var rootDomain = configuration["Tenancy:RootDomain"];
+        var isPlatformHost = PlatformHost.IsPlatformHost(host, rootDomain);
         var isPlatformApi = context.Request.Path.StartsWithSegments("/api/platform", StringComparison.OrdinalIgnoreCase);
         var isApi = context.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase);
 
         if (isPlatformApi)
         {
-            await next(context);
+            if (isPlatformHost)
+            {
+                await next(context);
+                return;
+            }
+
+            logger.LogWarning("Rejected platform API request on non-platform host");
+
+            await WriteProblemAsync(
+                context,
+                StatusCodes.Status404NotFound,
+                "platform.not-available",
+                "Platform administration endpoints are only available on the platform host");
+
             return;
         }
 
-        if (PlatformHost.IsPlatformHost(host, rootDomain) && !isApi)
+        if (isPlatformHost && !isApi)
         {
             await next(context);
             return;
@@ -53,13 +66,18 @@ public sealed class TenantResolutionMiddleware(RequestDelegate next)
 
         if (tenant is null)
         {
+            logger.LogWarning("No tenant resolved for the request host");
+
             if (!isApi)
             {
-                await next(context);
+                await WriteStatusPageAsync(
+                    context,
+                    StatusCodes.Status404NotFound,
+                    "المستأجر غير موجود",
+                    "المستأجر غير موجود",
+                    "هذا النطاق غير مسجل لأي مستأجر على المنصة.");
                 return;
             }
-
-            logger.LogWarning("No tenant resolved for the request host");
 
             await WriteProblemAsync(
                 context,
@@ -76,9 +94,12 @@ public sealed class TenantResolutionMiddleware(RequestDelegate next)
 
             if (!isApi)
             {
-                context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                context.Response.ContentType = "text/html; charset=utf-8";
-                await context.Response.WriteAsync("<!DOCTYPE html><html dir=\"rtl\" lang=\"ar\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>Ø§Ù„Ø®Ø¯Ù…Ø© Ù…Ø¹Ø·Ù„Ø©</title><style>body{font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;color:#1e293b}div{text-align:center;padding:2.5rem;background:#fff;border-radius:16px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.08);max-width:420px;border:1px solid #e2e8f0}.icon{width:64px;height:64px;border-radius:50%;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 1.25rem}h1{color:#0f172a;font-size:1.5rem;margin:0 0 0.5rem;font-weight:700}p{color:#64748b;font-size:0.95rem;line-height:1.6;margin:0}</style></head><body><div><div class=\"icon\">âœ•</div><h1>ØªÙ… Ø¥ÙŠÙ‚Ø§Ù Ø§Ù„Ø®Ø¯Ù…Ø©</h1><p>Ù‡Ø°Ø§ Ø§Ù„Ù…Ø³ØªØ£Ø¬Ø± Ù…Ø¹Ø·Ù„ Ø­Ø§Ù„ÙŠØ§Ù‹ Ù…Ù† Ù‚ÙØ¨Ù„ Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù…Ù†ØµØ© ÙˆÙ„Ø§ ÙŠØ³ØªÙ‚Ø¨Ù„ Ø£ÙŠ Ø²ÙŠØ§Ø±Ø§Øª.</p></div></body></html>");
+                await WriteStatusPageAsync(
+                    context,
+                    StatusCodes.Status403Forbidden,
+                    "الخدمة معطلة",
+                    "تم إيقاف الخدمة",
+                    "هذا المستأجر معطل حالياً من قِبل إدارة المنصة ولا يستقبل أي زيارات.");
                 return;
             }
 
@@ -110,6 +131,24 @@ public sealed class TenantResolutionMiddleware(RequestDelegate next)
         {
             await next(context);
         }
+    }
+
+    private static async Task WriteStatusPageAsync(
+        HttpContext context,
+        int statusCode,
+        string pageTitle,
+        string heading,
+        string message)
+    {
+        context.Response.StatusCode = statusCode;
+        context.Response.ContentType = "text/html; charset=utf-8";
+
+        var encodedTitle = WebUtility.HtmlEncode(pageTitle);
+        var encodedHeading = WebUtility.HtmlEncode(heading);
+        var encodedMessage = WebUtility.HtmlEncode(message);
+
+        await context.Response.WriteAsync(
+            $"<!DOCTYPE html><html dir=\"rtl\" lang=\"ar\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>{encodedTitle}</title><style>body{{font-family:system-ui,-apple-system,sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#f8fafc;color:#1e293b}}div{{text-align:center;padding:2.5rem;background:#fff;border-radius:16px;box-shadow:0 10px 25px -5px rgba(0,0,0,0.08);max-width:420px;border:1px solid #e2e8f0}}.icon{{width:64px;height:64px;border-radius:50%;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 1.25rem}}h1{{color:#0f172a;font-size:1.5rem;margin:0 0 0.5rem;font-weight:700}}p{{color:#64748b;font-size:0.95rem;line-height:1.6;margin:0}}</style></head><body><div><div class=\"icon\">✕</div><h1>{encodedHeading}</h1><p>{encodedMessage}</p></div></body></html>");
     }
 
     private static async Task WriteProblemAsync(HttpContext context, int statusCode, string code, string title)

@@ -21,14 +21,14 @@ public sealed class DevEnvironmentSeeder(IConfiguration configuration, RunnerLog
 
     private static readonly (string Text, string Translation, string Reference, string Category, int Order)[] SeedAdhkar =
     [
-        ("Ø³ÙØ¨Ù’Ø­ÙŽØ§Ù†ÙŽ Ø§Ù„Ù„ÙŽÙ‘Ù‡Ù", "Glory be to Allah", "Muslim 2694", "tasbih", 1),
-        ("Ø§Ù„Ù’Ø­ÙŽÙ…Ù’Ø¯Ù Ù„ÙÙ„ÙŽÙ‘Ù‡Ù", "All praise is due to Allah", "Muslim 2694", "tahmid", 2),
-        ("Ø§Ù„Ù„ÙŽÙ‘Ù‡Ù Ø£ÙŽÙƒÙ’Ø¨ÙŽØ±Ù", "Allah is the Greatest", "Muslim 2694", "takbir", 3),
-        ("Ù„ÙŽØ§ Ø¥ÙÙ„ÙŽÙ‡ÙŽ Ø¥ÙÙ„ÙŽÙ‘Ø§ Ø§Ù„Ù„ÙŽÙ‘Ù‡Ù", "There is no god but Allah", "Muslim 2694", "tahlil", 4),
-        ("Ù„ÙŽØ§ Ø­ÙŽÙˆÙ’Ù„ÙŽ ÙˆÙŽÙ„ÙŽØ§ Ù‚ÙÙˆÙŽÙ‘Ø©ÙŽ Ø¥ÙÙ„ÙŽÙ‘Ø§ Ø¨ÙØ§Ù„Ù„ÙŽÙ‘Ù‡Ù", "There is no power and no strength except with Allah", "Bukhari 6384", "hawqala", 5),
-        ("Ø§Ù„Ù„ÙŽÙ‘Ù‡ÙÙ…ÙŽÙ‘ ØµÙŽÙ„ÙÙ‘ Ø¹ÙŽÙ„ÙŽÙ‰ Ù…ÙØ­ÙŽÙ…ÙŽÙ‘Ø¯Ù", "O Allah, send blessings upon Muhammad", "Bukhari 3370", "salawat", 6),
-        ("Ø³ÙØ¨Ù’Ø­ÙŽØ§Ù†ÙŽ Ø§Ù„Ù„ÙŽÙ‘Ù‡Ù ÙˆÙŽØ¨ÙØ­ÙŽÙ…Ù’Ø¯ÙÙ‡Ù", "Glory be to Allah and praise be to Him", "Muslim 2691", "tasbih", 7),
-        ("Ø£ÙŽØ³Ù’ØªÙŽØºÙ’ÙÙØ±Ù Ø§Ù„Ù„ÙŽÙ‘Ù‡ÙŽ", "I seek forgiveness from Allah", "Muslim 2702", "tahlil", 8)
+        ("سُبْحَانَ اللَّهِ", "Glory be to Allah", "Muslim 2694", "tasbih", 1),
+        ("الْحَمْدُ لِلَّهِ", "All praise is due to Allah", "Muslim 2694", "tahmid", 2),
+        ("اللَّهُ أَكْبَرُ", "Allah is the Greatest", "Muslim 2694", "takbir", 3),
+        ("لَا إِلَهَ إِلَّا اللَّهُ", "There is no god but Allah", "Muslim 2694", "tahlil", 4),
+        ("لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "There is no power and no strength except with Allah", "Bukhari 6384", "hawqala", 5),
+        ("اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", "O Allah, send blessings upon Muhammad", "Bukhari 3370", "salawat", 6),
+        ("سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", "Glory be to Allah and praise be to Him", "Muslim 2691", "tasbih", 7),
+        ("أَسْتَغْفِرُ اللَّهَ", "I seek forgiveness from Allah", "Muslim 2702", "tahlil", 8)
     ];
 
     public async Task<bool> SeedAsync(CancellationToken cancellationToken)

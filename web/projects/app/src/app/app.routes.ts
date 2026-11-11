@@ -1,13 +1,15 @@
 import { Routes } from '@angular/router';
+import { detectPlatformHost } from './platform-host';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'adhkar' },
+  { path: '', pathMatch: 'full', redirectTo: 'orders' },
   {
     path: 'adhkar',
     loadChildren: () => import('./features/adhkar/adhkar').then((module) => module.ADHKAR_ROUTES)
   },
   {
     path: 'tenants',
+    canMatch: [() => detectPlatformHost()],
     loadChildren: () => import('./features/tenancy/tenants').then((module) => module.TENANT_ROUTES)
   },
   {
@@ -18,5 +20,5 @@ export const routes: Routes = [
     path: 'orders',
     loadChildren: () => import('./features/orders/orders').then((module) => module.ORDER_ROUTES)
   },
-  { path: '**', redirectTo: 'adhkar' }
+  { path: '**', redirectTo: 'orders' }
 ];

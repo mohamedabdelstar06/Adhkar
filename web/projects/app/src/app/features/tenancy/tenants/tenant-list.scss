@@ -1,6 +1,7 @@
 .platform-page {
   max-inline-size: 1100px;
   inline-size: 100%;
+  min-inline-size: 0;
   margin: 1.5rem auto;
   padding: 0 1.5rem;
   display: flex;
@@ -9,7 +10,9 @@
 }
 
 .platform-card {
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-inline-size: 100%;
   border: 1px solid var(--ds-color-border);
   border-radius: var(--zad-radius-sm);
   background: var(--ds-color-surface);
@@ -18,6 +21,7 @@
 
 .platform-table {
   inline-size: 100%;
+  min-inline-size: 640px;
   border-collapse: collapse;
   font-size: 0.85rem;
 
@@ -28,6 +32,7 @@
     color: var(--ds-color-on-surface-muted);
     font-weight: 600;
     text-align: start;
+    white-space: nowrap;
   }
 
   td {
@@ -35,6 +40,7 @@
     border-block-end: 1px solid var(--ds-color-border);
     color: var(--ds-color-on-surface);
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   tr:last-child td {
@@ -301,6 +307,30 @@
   to {
     transform: scale(1);
     opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .platform-page {
+    margin: 1rem auto;
+    padding: 0 0.875rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .confirm-dialog {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .dialog-actions {
+    flex-direction: column-reverse;
+  }
+
+  .btn-dialog-confirm-amber,
+  .btn-dialog-confirm-red,
+  .btn-dialog-cancel {
+    inline-size: 100%;
   }
 }
 

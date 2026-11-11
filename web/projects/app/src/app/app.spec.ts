@@ -7,6 +7,8 @@ import { I18n, Lang } from '@zad/i18n';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { API_ROUTES } from './api/api-base';
 import { App } from './app';
+import { routes } from './app.routes';
+import { detectPlatformHost } from './platform-host';
 
 function createTestI18n(): I18n {
   const lang = signal<Lang>('ar');
@@ -64,6 +66,25 @@ describe('App', () => {
     expect(compiled.querySelector('.app-header zad-adhkar-toast')).toBeNull();
     expect(compiled.querySelector('zad-adhkar-toast')).toBeTruthy();
     expect(compiled.textContent).toContain('سبحان الله');
+    expect(compiled.querySelector('a[href="/tenants"]')).toBeNull();
     httpTesting.verify();
+  });
+
+  it('should detect platform host strictly for admin subdomains and guard tenants route', () => {
+    expect(detectPlatformHost('admin.folll.duckdns.org')).toBe(true);
+    expect(detectPlatformHost('admin.localhost')).toBe(true);
+    expect(detectPlatformHost('epsilon.folll.duckdns.org')).toBe(false);
+    expect(detectPlatformHost('demo.localhost')).toBe(false);
+    expect(detectPlatformHost('localhost')).toBe(false);
+
+    const tenantsRoute = routes.find((r) => r.path === 'tenants');
+    expect(tenantsRoute?.canMatch?.length).toBe(1);
+    const guard = tenantsRoute!.canMatch![0] as () => boolean;
+    expect(guard()).toBe(false);
+
+    const defaultRoute = routes.find((r) => r.path === '');
+    const wildcardRoute = routes.find((r) => r.path === '**');
+    expect(defaultRoute?.redirectTo).toBe('orders');
+    expect(wildcardRoute?.redirectTo).toBe('orders');
   });
 });

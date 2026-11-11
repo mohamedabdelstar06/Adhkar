@@ -103,7 +103,22 @@ app.UseCors();
 app.UseTenantResolution();
 app.UseCultureResolution();
 app.UseDefaultFiles();
-app.UseStaticFiles();
+
+var noCacheStaticOptions = new StaticFileOptions
+{
+    OnPrepareResponse = static ctx =>
+    {
+        if (ctx.Context.Request.Path.StartsWithSegments("/i18n", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(ctx.File.Name, "index.html", StringComparison.OrdinalIgnoreCase))
+        {
+            ctx.Context.Response.Headers.CacheControl = "no-cache, no-store, must-revalidate";
+            ctx.Context.Response.Headers.Pragma = "no-cache";
+            ctx.Context.Response.Headers.Expires = "0";
+        }
+    }
+};
+
+app.UseStaticFiles(noCacheStaticOptions);
 
 if (app.Environment.IsDevelopment())
 {
@@ -122,7 +137,7 @@ app.MapModuleEndpoints(
     typeof(AdhkarApiMarker).Assembly);
 
 app.MapFallback("/api/{**rest}", () => Results.NotFound());
-app.MapFallbackToFile("index.html");
+app.MapFallbackToFile("index.html", noCacheStaticOptions);
 
 await app.RunAsync();
 

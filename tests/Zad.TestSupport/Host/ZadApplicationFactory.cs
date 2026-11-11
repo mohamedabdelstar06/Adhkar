@@ -21,7 +21,7 @@ public sealed class ZadApplicationFactory(TestDatabaseSet databases) : WebApplic
     public HttpClient CreatePlatformClient()
     {
         var client = CreateClient();
-        client.DefaultRequestHeaders.Host = "localhost";
+        client.DefaultRequestHeaders.Host = "admin.localhost";
         return client;
     }
 

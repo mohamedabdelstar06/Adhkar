@@ -24,7 +24,7 @@
               <option value="">-- {{ i18n.t('orders.selectProduct') }} --</option>
               @for (product of state.availableProducts(); track product.id) {
                 <option [value]="product.id">
-                  {{ product.name }} (SKU: {{ product.sku }}) — \${{ product.unitPrice }} [Stock: {{ product.stockQuantity }}]
+                  {{ product.name }} (SKU: {{ product.sku }}) — ${{ product.unitPrice }} [Stock: {{ product.stockQuantity }}]
                 </option>
               }
             </select>
@@ -67,9 +67,9 @@
               @for (line of cartItems(); track line.product.id; let idx = $index) {
                 <tr>
                   <td><strong>{{ line.product.name }}</strong> ({{ line.product.sku }})</td>
-                  <td>\${{ line.product.unitPrice | number:'1.2-2' }}</td>
+                  <td>${{ line.product.unitPrice | number:'1.2-2' }}</td>
                   <td>{{ line.quantity }}</td>
-                  <td>\${{ line.product.unitPrice * line.quantity | number:'1.2-2' }}</td>
+                  <td>${{ line.product.unitPrice * line.quantity | number:'1.2-2' }}</td>
                   <td>
                     <button class="btn-remove" type="button" (click)="removeLineItem(idx)">✕</button>
                   </td>
@@ -79,7 +79,7 @@
             <tfoot>
               <tr>
                 <td colspan="3" class="text-end font-bold">{{ i18n.t('orders.colTotal') }}:</td>
-                <td class="font-bold text-primary">\${{ cartTotal() | number:'1.2-2' }}</td>
+                <td class="font-bold text-primary">${{ cartTotal() | number:'1.2-2' }}</td>
                 <td></td>
               </tr>
             </tfoot>
@@ -97,7 +97,7 @@
         {{ i18n.t('catalog.cancel') }}
       </button>
       <button class="btn btn-primary" type="submit" [disabled]="cartItems().length === 0 || state.saving()">
-        {{ i18n.t('orders.placeOrder') }} (\${{ cartTotal() | number:'1.2-2' }})
+        {{ i18n.t('orders.placeOrder') }} (${{ cartTotal() | number:'1.2-2' }})
       </button>
     </div>
   </form>

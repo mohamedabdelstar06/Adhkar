@@ -3,14 +3,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { I18n } from '@zad/i18n';
 import { AdhkarToast } from './features/adhkar/adhkar';
 import { TenantList } from './features/tenancy/tenants';
-
-function detectPlatformHost(): boolean {
-  if (typeof window === 'undefined') {
-    return false;
-  }
-
-  return window.location.hostname.toLowerCase().startsWith('admin.');
-}
+import { detectPlatformHost } from './platform-host';
 
 @Component({
   selector: 'app-root',

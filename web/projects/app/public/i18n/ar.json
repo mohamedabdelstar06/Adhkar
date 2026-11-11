@@ -32,7 +32,7 @@
   "catalog.statsActive": "منتجات نشطة",
   "catalog.statsStock": "إجمالي المخزون",
   "orders.title": "إدارة الطلبات",
-  "orders.subtitle": "الوحدة المسؤولة عن الطلبات والتواصل مع الكتالوج عبر  ",
+  "orders.subtitle": "الوحدة المسؤولة عن إدارة طلبات العملاء",
   "orders.createOrder": "إنشاء طلب جديد",
   "orders.search": "بحث برقم الطلب أو البريد...",
   "orders.colOrderNumber": "رقم الطلب",
@@ -59,7 +59,6 @@
   "orders.statsTotal": "إجمالي الطلبات",
   "orders.statsPlaced": "طلبات مؤكدة",
   "orders.statsRevenue": "إجمالي المبيعات",
-  "orders.crossModuleNotice": "لاحظ: تفاصيل المنتج وأسعاره ومخزونه يتم جلبها فورياً من وحدة الكتالوج عبر IProductReader (Contracts)",
   "adhkar.tickerLabel": "ذكر الآن",
   "adhkar.empty": "لا توجد أذكار بعد",
   "adhkar.rotate": "كل دقيقة",
@@ -126,7 +125,5 @@
   "platform.updated": "تم حفظ التعديلات بنجاح.",
   "platform.deleted": "تم حذف المستأجر بنجاح.",
   "platform.activated": "تم تفعيل المستأجر بنجاح.",
-  "platform.deactivated": "تم إلغاء تفعيل المستأجر بنجاح.",
-  "platform.devNote": " ",
-  "nav.tenants": "المستأجرون"
+  "platform.deactivated": "تم إلغاء تفعيل المستأجر بنجاح."
 }

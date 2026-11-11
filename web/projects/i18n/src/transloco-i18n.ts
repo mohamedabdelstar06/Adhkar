@@ -6,6 +6,7 @@ import { I18n, Lang, TextDirection, TranslationParams } from './i18n';
 export class TranslocoI18n extends I18n {
   private readonly transloco = inject(TranslocoService);
   private readonly current = signal<Lang>('ar');
+  private readonly revision = signal(0);
 
   readonly lang = this.current.asReadonly();
 
@@ -28,16 +29,22 @@ export class TranslocoI18n extends I18n {
 
   use(lang: Lang): void {
     this.current.set(lang);
-    this.transloco.load(lang).subscribe();
+    this.transloco.load(lang).subscribe(() => {
+      this.revision.update((value) => value + 1);
+    });
   }
 
   t(key: string, params?: TranslationParams): string {
     this.current();
+    this.revision();
 
     return this.transloco.translate(key, params);
   }
 
   has(key: string): boolean {
+    this.current();
+    this.revision();
+
     return this.transloco.translate(key) !== key;
   }
 

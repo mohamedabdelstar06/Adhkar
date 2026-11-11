@@ -20,7 +20,7 @@
     </div>
     <div class="stat-card">
       <div class="stat-label">{{ i18n.t('orders.statsRevenue') }}</div>
-      <div class="stat-val text-primary">\${{ state.totalRevenue() | number:'1.2-2' }}</div>
+      <div class="stat-val text-primary">${{ state.totalRevenue() | number:'1.2-2' }}</div>
     </div>
   </div>
 
@@ -32,11 +32,6 @@
       [value]="state.searchQuery()"
       (input)="onSearchInput($event)"
     />
-  </div>
-
-  <div class="cross-module-badge">
-    <span class="info-icon">💡</span>
-    <span>{{ i18n.t('orders.crossModuleNotice') }}</span>
   </div>
 
   <div class="table-card">
@@ -63,7 +58,7 @@
               <td><span class="badge-order">{{ order.orderNumber }}</span></td>
               <td class="customer-email">{{ order.customerEmail }}</td>
               <td>{{ order.itemCount }}</td>
-              <td class="font-bold">\${{ order.totalAmount | number:'1.2-2' }}</td>
+              <td class="font-bold">${{ order.totalAmount | number:'1.2-2' }}</td>
               <td>
                 <span
                   class="status-pill"

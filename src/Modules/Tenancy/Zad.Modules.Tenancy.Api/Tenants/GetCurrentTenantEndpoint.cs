@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Zad.BuildingBlocks.Application.Tenancy;
 using Zad.BuildingBlocks.Web.Endpoints;
-using Zad.Modules.Tenancy.Contracts;
+using Zad.BuildingBlocks.Web.Results;
+using Zad.Modules.Tenancy.Application.Tenants;
+using Zad.Modules.Tenancy.Domain.Tenants;
 
 namespace Zad.Modules.Tenancy.Api.Tenants;
 
@@ -11,32 +12,17 @@ internal sealed class GetCurrentTenantEndpoint : IEndpoint
 {
     public void Map(IEndpointRouteBuilder app)
     {
-        app.MapGroup("/api/tenancy")
+        app.MapTenancyGroup()
             .WithTags("Tenancy")
             .MapGet("/current", HandleAsync)
             .WithName("GetCurrentTenant");
     }
 
     private static async Task<IResult> HandleAsync(
-        ITenantContext tenantContext,
-        ITenantDirectory directory,
+        CurrentTenantReader reader,
         CancellationToken cancellationToken)
     {
-        if (!tenantContext.IsResolved)
-        {
-            return TypedResults.Problem(
-                statusCode: StatusCodes.Status404NotFound,
-                title: "The request did not resolve a tenant",
-                extensions: new Dictionary<string, object?> { ["code"] = TenancyErrorCodes.TenantNotFound });
-        }
-
-        var tenant = await directory.GetAsync(tenantContext.TenantId, cancellationToken);
-
-        return tenant is null
-            ? TypedResults.Problem(
-                statusCode: StatusCodes.Status404NotFound,
-                title: "The requested tenant does not exist",
-                extensions: new Dictionary<string, object?> { ["code"] = TenancyErrorCodes.TenantNotFound })
-            : TypedResults.Ok(tenant);
+        var tenant = await reader.GetAsync(cancellationToken);
+        return tenant is null ? TenantErrors.NotFound.ToProblem() : TypedResults.Ok(tenant);
     }
 }

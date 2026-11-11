@@ -43,6 +43,7 @@ public sealed class TenancyModuleInstaller : IModuleInstaller
         services.AddSingleton<ITenancyCacheRefresher>(provider => provider.GetRequiredService<TenancyRegistry>());
 
         services.AddScoped<TenantProvisioningService>();
+        services.AddScoped<CurrentTenantReader>();
         services.AddScoped<TenantAdminReader>();
         services.AddScoped<TenantReader>();
         services.AddScoped<ITenantDirectory>(provider => provider.GetRequiredService<TenantReader>());
